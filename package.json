@@ -1,0 +1,29 @@
+{
+  "name": "@baethon/mongoose-lazy-migration",
+  "version": "1.0.0",
+  "description": "Migrate Mongo documents on-load",
+  "main": "index.js",
+  "author": "Radoslaw Mejer <radmen@baethon.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "ava",
+    "lint": "xo",
+    "lint:fix": "xo --fix"
+  },
+  "dependencies": {
+    "@baethon/pure-mutation": "^1.0.0"
+  },
+  "devDependencies": {
+    "ava": "^2.4.0",
+    "husky": "^3.1.0",
+    "xo": "^0.25.3"
+  },
+  "peerDependencies": {
+    "mongoose": "^5.6.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint"
+    }
+  }
+}
