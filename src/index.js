@@ -1,10 +1,10 @@
 const assert = require('assert');
 
-const version = (number, migration) => {
+const migration = (number, migrationFn) => {
 	assert.ok(typeof number === 'number');
-	assert.ok(migration instanceof Function);
+	assert.ok(migrationFn instanceof Function);
 
-	return {version: number, migration};
+	return {version: number, migration: migrationFn};
 };
 
-module.exports = {version};
+module.exports = {migration};
