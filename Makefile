@@ -5,6 +5,7 @@ test: .make-setup
 .PHONY: dummy
 
 test/%.js: .make-setup dummy
+	npx ava $@
 
 .PHONY: teardown
 teardown:
