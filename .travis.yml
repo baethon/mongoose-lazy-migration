@@ -15,7 +15,7 @@ env:
 
 install:
   - yarn
-  - [[ ! -z "$MONGOOSE_VERSION" ]] && yarn add -D "mongoose@~$MONGOOSE_VERSION"
+  - if [[ ! -z "$MONGOOSE_VERSION" ]]; then yarn add -D "mongoose@~$MONGOOSE_VERSION"; fi;
 
 before_script:
   - docker-compose up -d
