@@ -32,5 +32,8 @@
     "*.js": [
       "xo --fix"
     ]
-  }
+  },
+  "files": [
+    "src/index.js"
+  ]
 }
