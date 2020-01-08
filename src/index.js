@@ -21,9 +21,8 @@ const applyPendingMigrations = migrations => document => {
 	);
 };
 
-const hasMigrations = (schema, options) => {
+const withMigrations = (schema, migrations, options = {}) => {
 	const {
-		migrations = [],
 		index = true
 	} = options;
 
@@ -44,4 +43,4 @@ const hasMigrations = (schema, options) => {
 	return schema;
 };
 
-module.exports = {migration, hasMigrations};
+module.exports = {migration, withMigrations};

@@ -1,7 +1,7 @@
 import test from 'ava';
 import mongoose from 'mongoose';
 import SchemaNumber from 'mongoose/lib/schema/number';
-import {hasMigrations, migration as m} from '../src';
+import {withMigrations, migration as m} from '../src';
 
 const {Schema} = mongoose;
 let User;
@@ -20,19 +20,19 @@ test.before(async () => {
 		}
 	});
 
-	User = mongoose.model('User', hasMigrations(userSchema, {
-		migrations: [
-			m(1, user => ({
-				...user,
-				fullname: `${user.firstname} ${user.lastname}`,
-				updates: user.updates + 1
-			})),
-			m(2, user => ({
-				fullname: user.fullname,
-				updates: user.updates + 1
-			}))
-		]
-	}));
+	const migrations = [
+		m(1, user => ({
+			...user,
+			fullname: `${user.firstname} ${user.lastname}`,
+			updates: user.updates + 1
+		})),
+		m(2, user => ({
+			fullname: user.fullname,
+			updates: user.updates + 1
+		}))
+	];
+
+	User = mongoose.model('User', withMigrations(userSchema, migrations));
 });
 
 test.after.always(() => {
@@ -48,12 +48,15 @@ test('it extends schema', t => {
 });
 
 test('it extends schema | disabled index', t => {
-	const schema = hasMigrations(new Schema({}), {
-		migrations: [
+	const schema = withMigrations(
+		new Schema({}),
+		[
 			m(1, data => data)
 		],
-		index: false
-	});
+		{
+			index: false
+		}
+	);
 
 	t.false(schema.path('schemaVersion')._index);
 });
