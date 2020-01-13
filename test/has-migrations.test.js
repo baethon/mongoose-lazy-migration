@@ -27,6 +27,7 @@ test.before(async () => {
 			updates: user.updates + 1
 		})),
 		m(2, user => ({
+			_id: user._id,
 			fullname: user.fullname,
 			updates: user.updates + 1
 		}))
@@ -100,4 +101,22 @@ test('it makes no update to most recent version', async t => {
 	t.is('Jon Snow', document.fullname);
 	t.is(2, document.schemaVersion);
 	t.is(0, document.updates);
+});
+
+test('it saves migrated data', async t => {
+	const {insertedId} = await User.collection.insertOne({
+		firstname: 'Jon',
+		lastname: 'Snow',
+		fullname: 'Jon Snow',
+		schemaVersion: 1,
+		updates: 0
+	});
+
+	const document = await User.findOne({_id: insertedId});
+	await document.save();
+
+	const check = await User.findOne({_id: insertedId});
+
+	t.is(2, check.schemaVersion);
+	t.is(1, check.updates);
 });
