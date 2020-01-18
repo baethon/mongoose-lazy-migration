@@ -44,7 +44,6 @@ test('it extends schema', t => {
 	const schemaVersion = User.schema.path('schemaVersion');
 
 	t.true(schemaVersion instanceof SchemaNumber);
-	t.is(2, schemaVersion.defaultValue);
 	t.true(schemaVersion._index);
 });
 
@@ -66,8 +65,7 @@ test('it migrates document without any version', async t => {
 	const {insertedId} = await User.collection.insertOne({
 		firstname: 'Jon',
 		lastname: 'Snow',
-		updates: 0,
-		schemaVersion: 0
+		updates: 0
 	});
 
 	const document = await User.findOne({_id: insertedId});
@@ -98,6 +96,20 @@ test('it makes no update to most recent version', async t => {
 	});
 
 	const document = await User.findOne({_id: insertedId});
+
+	t.is('Jon Snow', document.fullname);
+	t.is(2, document.schemaVersion);
+	t.is(0, document.updates);
+});
+
+test('it makes no update to most recent version | deferred save', async t => {
+	const model = new User({
+		fullname: 'Jon Snow'
+	});
+
+	await model.save();
+
+	const document = await User.findOne({_id: model._id});
 
 	t.is('Jon Snow', document.fullname);
 	t.is(2, document.schemaVersion);

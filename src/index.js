@@ -31,7 +31,6 @@ const withMigrations = (schema, migrations, options = {}) => {
 	schema.add({
 		schemaVersion: {
 			type: Number,
-			default: latestVersion,
 			index
 		}
 	});
@@ -49,6 +48,11 @@ const withMigrations = (schema, migrations, options = {}) => {
 		});
 
 		document.set('schemaVersion', latestVersion);
+	});
+
+	schema.pre('save', function (next) {
+		this.schemaVersion = latestVersion;
+		next();
 	});
 
 	return schema;
