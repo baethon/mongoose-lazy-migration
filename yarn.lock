@@ -289,9 +289,9 @@
     to-fast-properties "^2.0.0"
 
 "@baethon/pure-mutation@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@baethon/pure-mutation/-/pure-mutation-1.0.0.tgz#7c510e35d81f677752a8caa68a2b725abe119d8f"
-  integrity sha512-8vqx4TquGRBjAcMpuR5P1jMtLl+xg6L6Liiz7ndfU7IL/ZrnxHRCY7JActxogrHYWCzcvpNfMtro1u2pAwTzeQ==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@baethon/pure-mutation/-/pure-mutation-1.1.0.tgz#ec8b6a09cb96b5a2ed8aa5fc20644dd9554c8ab8"
+  integrity sha512-/jP0HLT9JHChkDoSSSHojCl2K1EHeBiGW1j6ZtMXm9gmwr5tGXc+dAguuXZMXRDwLS/JTddGap7iX5lDhYwdOA==
   dependencies:
     lodash.difference "^4.5.0"
 

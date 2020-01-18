@@ -36,8 +36,19 @@ const withMigrations = (schema, migrations, options = {}) => {
 		}
 	});
 
-	schema.pre('init', document => {
-		mutate(document, applyPendingMigrations(migrations));
+	schema.post('init', document => {
+		mutate(document._doc, applyPendingMigrations(migrations), {
+			assign: (_, values) => {
+				document.set(values);
+			},
+			exclude: (_, keys) => {
+				keys.forEach(name => {
+					document.set(name, undefined);
+				});
+			}
+		});
+
+		document.set('schemaVersion', latestVersion);
 	});
 
 	return schema;

@@ -66,7 +66,8 @@ test('it migrates document without any version', async t => {
 	const {insertedId} = await User.collection.insertOne({
 		firstname: 'Jon',
 		lastname: 'Snow',
-		updates: 0
+		updates: 0,
+		schemaVersion: 0
 	});
 
 	const document = await User.findOne({_id: insertedId});
