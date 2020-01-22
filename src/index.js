@@ -37,12 +37,14 @@ const withMigrations = (schema, migrations, options = {}) => {
 
 	schema.post('init', document => {
 		mutate(document._doc, applyPendingMigrations(migrations), {
-			assign: (_, values) => {
-				document.set(values);
+			assign: (docRef, values) => {
+				// Sync document with the input ref
+				document.overwrite(values);
+				Object.assign(docRef, values);
 			},
-			exclude: (_, keys) => {
+			exclude: (docRef, keys) => {
 				keys.forEach(name => {
-					document.set(name, undefined);
+					delete docRef[name];
 				});
 			}
 		});

@@ -133,3 +133,19 @@ test('it saves migrated data', async t => {
 	t.is(2, check.schemaVersion);
 	t.is(1, check.updates);
 });
+
+test('it removes properties not defined in the schema', async t => {
+	const {insertedId} = await User.collection.insertOne({
+		firstname: 'Jon',
+		lastname: 'Snow',
+		updates: 0,
+		overflow: true
+	});
+
+	const document = await User.findOne({_id: insertedId});
+
+	// Turns out that document converted to json might contain
+	// fields which are not defined in the schema
+	// migrations for User model should remove every overflow data
+	t.is(false, 'overflow' in document.toJSON());
+});
